@@ -1,0 +1,1 @@
+flyway -user=root -url=jdbc:mysql://localhost:3306/spring_data_workshop -locations=filesystem:./db-schema/schema/ migrate
