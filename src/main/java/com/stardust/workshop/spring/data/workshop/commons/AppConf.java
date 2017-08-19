@@ -1,6 +1,7 @@
 package com.stardust.workshop.spring.data.workshop.commons;
 
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
@@ -10,10 +11,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement //Equals to <tx:annotation-driven transaction-manager="xxxxx"/>
@@ -60,5 +65,28 @@ public class AppConf {
     @Autowired
     public PlatformTransactionManager getDataSourceTransactionManager(DataSource ds) {
         return new DataSourceTransactionManager(ds);
+    }
+
+    @Bean
+    @Autowired
+    public LocalSessionFactoryBean getSessionFactory(DataSource dataSource) {
+        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+        sessionFactoryBean.setDataSource(dataSource);
+        sessionFactoryBean.setPackagesToScan("com.stardust.workshop.spring.data.workshop.part4");
+        sessionFactoryBean.setHibernateProperties(new Properties() {
+            {
+                setProperty("hibernate.hbm2ddl.auto", "create");
+                setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+                setProperty("hibernate.show-sql", "true");
+                setProperty("hibernate.naming-strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+            }
+        });
+        return sessionFactoryBean;
+    }
+
+    @Bean
+    @Autowired
+    public HibernateTemplate getHibernateTemplate(SessionFactory sessionFactory) {
+        return new HibernateTemplate(sessionFactory);
     }
 }
