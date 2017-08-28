@@ -21,6 +21,7 @@ public abstract class DataRepository<T> {
         return (T) hibernateTemplate.get(getEntityClassName(), id);
     }
 
+    @Transactional
     public List<?> query(Map<String, Object> filters) {
         String selector = "from " + getEntityName() + " t";
         StringBuilder query = new StringBuilder(selector);

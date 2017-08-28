@@ -8,6 +8,7 @@ import com.stardust.workshop.spring.data.workshop.part4.repositories.DataReposit
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +43,13 @@ public class Application {
 		Author author1 = authorRepository.find(1);
 		List<Book> books = author1.getBooks();
 		System.out.println(books.size());
+		System.out.println("----------Find book by book---------");
 		Map<String, Object> filters = new HashMap<>();
 		filters.put("name", "Book B");
-		List<?> results = bookRepository.query(filters);
+		bookRepository.query(filters).stream().forEach(book->System.out.println(book.toString()));
+		System.out.println("----------Find book by author---------");
 		filters.clear();
 		filters.put("author.name", "Foo");
-		results = bookRepository.query(filters);
-		int a=0;
+		bookRepository.query(filters).stream().forEach(book->System.out.println(book.toString()));
 	}
 }

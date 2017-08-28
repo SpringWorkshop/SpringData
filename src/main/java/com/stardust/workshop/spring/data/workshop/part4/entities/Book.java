@@ -37,4 +37,9 @@ public class Book {
     public void setAuthor(Author author) {
         this.author = author;
     }
+
+    @Override
+    public String toString() {
+        return "id=" + this.getId() + ", name=" + this.getName();
+    }
 }

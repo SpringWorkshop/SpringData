@@ -12,7 +12,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.hibernate4.HibernateTemplate;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -77,7 +76,7 @@ public class AppConf {
             {
                 setProperty("hibernate.hbm2ddl.auto", "create");
                 setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-                setProperty("hibernate.show-sql", "true");
+                setProperty("hibernate.show-sql", "false");
                 setProperty("hibernate.naming-strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
             }
         });

@@ -46,4 +46,12 @@ public class Author {
     public void setBooks(List<Book> books) {
         this.books = books;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder val = new StringBuilder();
+        val.append("id=" + this.getId() + ", name=" + this.getName() + ", gender=" + this.getGender());
+        getBooks().stream().forEach(book->val.append("\r\n  " + book.toString()));
+        return val.toString();
+    }
 }
